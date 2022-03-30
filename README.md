@@ -43,12 +43,6 @@ sudo apt-get install -y libssl-dev
 sudo apt-get install python3-dev
 python -m pip install -e detectron2 
 python src/demo/demo.py --config-file Data/config_files/config_eng_nzl.yaml
-=======
-.venv\Scripts\activate.bat
-```
-with
-```
-source .venv/bin/activate
 ```
 
 It can take a while to install all the dependencies (torch is around 4GB in size.)
