@@ -36,7 +36,7 @@ For linux users replace
 ```
 with
 ```
-source venv\Scripts\activate
+source .venv/bin/activate
 ```
 
 It can take a while to install all the dependencies (torch is around 4GB in size.)
