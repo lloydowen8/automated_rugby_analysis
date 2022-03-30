@@ -33,7 +33,6 @@ python src/demo/demo.py --config-file Data/config_files/config_eng_nzl.yaml
 
 For linux users replace
 ```
-<<<<<<< HEAD
 python -m venv .venv
 source .venv/bin/activate
 git clone https://github.com/facebookresearch/detectron2.git
@@ -50,7 +49,6 @@ python src/demo/demo.py --config-file Data/config_files/config_eng_nzl.yaml
 with
 ```
 source .venv/bin/activate
->>>>>>> 8285ea292f491cef56b6d594ef222bfe62458e3c
 ```
 
 It can take a while to install all the dependencies (torch is around 4GB in size.)
