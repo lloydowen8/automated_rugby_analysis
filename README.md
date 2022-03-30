@@ -1,4 +1,5 @@
 # An Automated Territory and Possession Analysis of Broadcast Rugby Footage
+
 ## Repo Structure
 
 After the setup instructions have been followed there should be 3 top-level directories: 
@@ -22,9 +23,9 @@ and extract the folder into the top-level directory of this repository.
 python -m venv .venv
 .venv\Scripts\activate.bat
 git clone https://github.com/facebookresearch/detectron2.git
-python -m pip install -e detectron2 
 pip install -r requirements.txt
 pip install torch==1.9.0+cu111 torchvision==0.10.0+cu111 -f https://download.pytorch.org/whl/torch_stable.html
+python -m pip install -e detectron2 
 python src/demo/demo.py --config-file Data/config_files/config_eng_nzl.yaml
 ```
 
@@ -32,15 +33,20 @@ python src/demo/demo.py --config-file Data/config_files/config_eng_nzl.yaml
 
 For linux users replace
 ```
-.venv\Scripts\activate.bat
-```
-with
-```
-source venv\Scripts\activate
+python -m venv .venv
+source .venv/bin/activate
+git clone https://github.com/facebookresearch/detectron2.git
+pip install -r requirements.txt
+pip install torch==1.9.0+cu111 torchvision==0.10.0+cu111 -f https://download.pytorch.org/whl/torch_stable.html --no-cache-dir
+sudo apt-get install build-essential
+sudo apt-get install -y libssl-dev
+sudo apt-get install python3-dev
+python -m pip install -e detectron2 
+python src/demo/demo.py --config-file Data/config_files/config_eng_nzl.yaml
 ```
 
 It can take a while to install all the dependencies (torch is around 4GB in size.)
 
-The version of python used was 3.9.6, the code has not been tested on earlier versions. I'd also recommend running the code on a machine with a minimum of 8-12GB of RAM and a dedicated GPU. The default config has verbose set to true which will demonstrate the dictionary generation process and sports field registration for each frame, this can be disabled by setting the verbose option in `Data/config_files/config_eng_nzl.yaml` to False. 
+The version of python used was 3.9.6, the code has not been tested on earlier versions. I'd also recommend running the code on a machine with a minimum of 8-12GB of RAM and a dedicated GPU. The default config has verbose set to true which will demonstrate the dictionary generation process and sports field registration for each frame, this can be disabled by setting the verbose option in `Data/config_files/config_eng_nzl.yaml` to False.
 
 If all else fails, there is an example video in the downloaded Data folder demonstrating the system. The accompanying video to this is the file located in Data/input_videos/eng_nzl_clip_less_frames.mp4

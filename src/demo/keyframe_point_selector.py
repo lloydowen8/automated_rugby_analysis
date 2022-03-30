@@ -3,6 +3,7 @@ import cv2
 import numpy as np
 import pickle as pkl
 
+# Used to select the keypoints from the keyframe and model (can use by removing the keypoint parameters in the config)
 class KeyframePointSelector(): 
     def __init__(self, key_frame, model): 
         self.keyframe_img = key_frame
@@ -30,7 +31,6 @@ class KeyframePointSelector():
     def click_event(self, event, x, y, flags, params):
         # checking for left mouse clicks
         if event == cv2.EVENT_LBUTTONDOWN:
-
 
             params[2].append((x*(1/params[0]),y*(1/params[0])))
             # displaying the coordinates

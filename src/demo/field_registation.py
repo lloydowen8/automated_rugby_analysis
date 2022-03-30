@@ -117,6 +117,7 @@ class SportsFieldRegistrator(object):
         y = det(d, ydiff) / div
         return np.array((x, y))
 
+    # Dictonary generation
     def _simulateCamera(self, camera_corners, homography, simlulation_ranges, zoom_offset = 0): 
         camera_pos = self._getCameraPos(camera_corners[0][:2], camera_corners[0][2:])
         edge_map_hog_dict = []
@@ -134,6 +135,8 @@ class SportsFieldRegistrator(object):
                     dst2 = cv2.cvtColor(self.court_model, cv2.COLOR_RGB2GRAY)
                     dst2 = cv2.Canny(dst2, 10, 150, apertureSize=3)
                     dst2 = cv2.warpPerspective(dst2, np.matmul(homography, np.linalg.inv(N)), (self.court_model.shape[1], self.court_model.shape[0]))
+
+
                     if self.verbose: 
                         cv2.imshow("Dictionary generation", self._resizeWithAspectRatio(dst2, width=512))
                         cv2.waitKey(1)
@@ -165,14 +168,7 @@ class SportsFieldRegistrator(object):
 
         corners = cv2.perspectiveTransform(corner_points.astype(float), np.linalg.inv(M))
 
-
-
         self.edge_map_hog_dict = self._simulateCamera(corners, M, self.edge_map_simulation_ranges)
-
-    def loadEdgeMaps(edge_map_file): 
-        with open("edge_map_hog_dict.pkl", "rb") as f: 
-            edge_map_dict = pickle.load(f)
-        return edge_map_dict
 
 
     def _preprocess_frame(self, frame, masks): 
@@ -190,7 +186,7 @@ class SportsFieldRegistrator(object):
         frame = self._resizeWithAspectRatio(frame, width=256)
         return frame
 
-    def _mrf_optimisation(self, neighbour_dists, transformations, previous_transformation): 
+    def _jitter_optimisation(self, neighbour_dists, transformations, previous_transformation): 
         if not previous_transformation.any(): 
             return np.argmin(self._data_function(neighbour_dists))
         else:
@@ -202,6 +198,7 @@ class SportsFieldRegistrator(object):
     def _smoothness_function(self, previous_transformation, transformations):
         return np.array([distance.euclidean(previous_transformation.flatten(), transformation.flatten()) for transformation in transformations])
 
+    # Main algorithm for finding closest edge map
     def find_best_edge_map(self, frame, masks, scene_class, corner_points):
         frame = self._preprocess_frame(frame, masks)
         h_input = self.hog.compute(frame)
@@ -214,6 +211,7 @@ class SportsFieldRegistrator(object):
             "zoom_range": [3, 5, 1]
         }
         
+        # Detect transitions
         if zoomin_transition: 
             self.use_inner_edge_map = True
             self.inner_edge_map = self._simulateCamera(corner_points, self.previous_transformation, edge_map_simulation_ranges, 0)
@@ -221,8 +219,10 @@ class SportsFieldRegistrator(object):
             self.use_inner_edge_map = False
             self.inner_edge_map = None
 
+        # If in close view use localised edge map, else use pre-built
         edge_map_hog_dict = self.edge_map_hog_dict if not self.use_inner_edge_map else self.inner_edge_map
 
+        # Find closest k homographies and run frame-to-frame optimisation to return the best 
         min_dist_array = []
         closest_homographies = []
         for h_output, transform_matrix in edge_map_hog_dict:
@@ -240,7 +240,7 @@ class SportsFieldRegistrator(object):
                     max_pointer = (max_pointer + 1) % len(min_dist_array)
 
         self.previous_scene_class = scene_class
-        tranfromation_idx = self._mrf_optimisation(min_dist_array, closest_homographies, self.previous_transformation)
+        tranfromation_idx = self._jitter_optimisation(min_dist_array, closest_homographies, self.previous_transformation)
         return closest_homographies[tranfromation_idx], frame
 
     def pitch_registration(self, frame, masks, scene_class, corner_points): 

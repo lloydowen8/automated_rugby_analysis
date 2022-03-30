@@ -7,7 +7,7 @@ class SceneClass(Enum):
     WIDE_VIEW = "Wide-view"
     CLOSE_VIEW = "Close-view"
 
-
+# Very simple but effective scene classification system 
 class SceneClassification(): 
 
     def __init__(self, green_mask_range, green_pixel_threshold, bounding_box_threshold): 

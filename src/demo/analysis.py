@@ -28,7 +28,7 @@ class TerritoryAnalysis:
             self.territory_hist += hist
     
     def _weight_detections_naive(self, hist, num_players): 
-        return hist * (min(30, num_players) / 30)
+        return hist * (min(15, num_players) / 15)
     
     def _display_graphs(self):
         fig, axs = plt.subplots(3, 2, figsize=(11, 11))

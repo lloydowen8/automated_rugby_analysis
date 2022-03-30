@@ -12,16 +12,9 @@ from detectron2.engine.defaults import DefaultPredictor
 from detectron2.utils.video_visualizer import VideoVisualizer
 from detectron2.utils.visualizer import ColorMode, Visualizer
 
-
+# Most of this is boiler plate code from detectron2 with a few modifications 
 class VisualizationDemo(object):
     def __init__(self, cfgs, instance_mode=ColorMode.IMAGE, parallel=False):
-        """
-        Args:
-            cfg (CfgNode):
-            instance_mode (ColorMode):
-            parallel (bool): whether to run the model in different processes from visualization.
-                Useful since the visualization logic can be slow.
-        """
         self.metadata = []
         self.predictor = []
         for i in range(0, len(cfgs)):
@@ -50,18 +43,6 @@ class VisualizationDemo(object):
                 break
 
     def run_on_video(self, video):
-        """
-        Visualizes predictions on frames of the input video.
-
-        Args:
-            video (cv2.VideoCapture): a :class:`VideoCapture` object, whose source can be
-                either a webcam or a video file.
-
-        Yields:
-            ndarray: BGR visualizations of each video frame.
-        """
-
-
         def process_predictions(frame, predictions):
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             instance_predictions = []
