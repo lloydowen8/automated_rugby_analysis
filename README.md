@@ -4,9 +4,9 @@
 
 After the setup instructions have been followed there should be 3 top-level directories: 
 
-- Data: Evaluation & input data (TODO fix/remove notebooks and add README)
+- Data: Evaluation & input data
 - Detectron2: Extrnal library used for object detection
-- src: The source code for the project (TODO add README and tidy code)
+- src: The source code for the project
 
 Each has there own README describing the contents of the folder. 
 
@@ -33,7 +33,6 @@ python src/demo/demo.py --config-file Data/config_files/config_eng_nzl.yaml
 
 For linux users replace
 ```
-<<<<<<< HEAD
 python -m venv .venv
 source .venv/bin/activate
 git clone https://github.com/facebookresearch/detectron2.git
@@ -44,13 +43,6 @@ sudo apt-get install -y libssl-dev
 sudo apt-get install python3-dev
 python -m pip install -e detectron2 
 python src/demo/demo.py --config-file Data/config_files/config_eng_nzl.yaml
-=======
-.venv\Scripts\activate.bat
-```
-with
-```
-source .venv/bin/activate
->>>>>>> 8285ea292f491cef56b6d594ef222bfe62458e3c
 ```
 
 It can take a while to install all the dependencies (torch is around 4GB in size.)

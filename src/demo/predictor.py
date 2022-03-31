@@ -1,4 +1,3 @@
-# Copyright (c) Facebook, Inc. and its affiliates.
 import atexit
 import bisect
 import multiprocessing as mp
@@ -55,7 +54,7 @@ class VisualizationDemo(object):
                 else:
                     continue
                 # Converts Matplotlib RGB format to OpenCV BGR format
-                # frame = vis_frame.get_image()
+                frame = vis_frame.get_image()
         
             self.frame += 1
             return cv2.cvtColor(vis_frame.get_image(), cv2.COLOR_RGB2BGR), instance_predictions
